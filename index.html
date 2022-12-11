@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sakuin (索引)</title>
+    <link rel="stylesheet" href="/assets/css/theme.css">
+</head>
+<body>
+
+<nav class="uk-navbar-container uk-margin" uk-navbar>
+    <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo" href="#">Sakuin (索引)</a>
+    </div>
+</nav>
+
+<div class="uk-container">
+    <ul class="uk-breadcrumb">
+        <li><a href="/">Home</a></li>
+        {{ range $index, $element := .Path }}
+        <li><a href="{{ $element.Path }}">{{ $element.Name }}</a></li>
+        {{ end }}
+    </ul>
+
+    <table class="uk-table uk-table-striped uk-table-hover uk-table-middle">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="uk-table-shrink uk-text-nowrap">Last Modified</th>
+            <th class="uk-table-shrink uk-text-nowrap">Size</th>
+            <th class="uk-table-shrink uk-text-nowrap">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range .Files }}
+        <tr>
+            <td class="uk-text-truncate">
+                <span uk-icon="icon: {{ if .IsDir }}folder{{ else }}file{{ end }}"></span>
+                {{ if .IsDir }}
+                <a href="{{ .Path }}">{{ .Name }}</a>
+                {{ else }}
+                <a style="color:grey;" href="{{ .Path }}">{{ .Name }}</a>
+                {{ end }}
+            </td>
+            <td class="uk-text-nowrap">{{ .Date }}</td>
+            <td class="uk-text-nowrap">{{ if .IsDir }} - {{ else }}{{ .Size }}{{ end }}</td>
+            <td class="uk-text-nowrap">{{ if .IsDir }} - {{ else }}<a href="{{ .Path }}" class="uk-icon-button"
+                                                                      uk-icon="icon: cloud-download"></a>{{ end }}
+            </td>
+        </tr>
+        {{ end }}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
